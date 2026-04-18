@@ -1,0 +1,40 @@
+{
+  "cards": [
+    {
+      "id": "55555555-ffff-4ggg-8hhh-666666666666",
+      "pin": "5678",
+      "cvv": "234",
+      "type": "CARD_TYPE_VIRTUAL",
+      "status": "CARD_STATUS_ACTIVE",
+      "accountId": "ffffffff-gggg-4hhh-8iii-ffffffffffff",
+      "cardNumber": "4222222222222222",
+      "cardHolder": "MARIA SIDOROVA",
+      "expiryDate": "2027-09-30",
+      "paymentSystem": "CARD_PAYMENT_SYSTEM_VISA"
+    },
+    {
+      "id": "77777777-jjjj-4kkk-8lll-888888888888",
+      "pin": "4321",
+      "cvv": "567",
+      "type": "CARD_TYPE_PHYSICAL",
+      "status": "CARD_STATUS_ACTIVE",
+      "accountId": "ffffffff-gggg-4hhh-8iii-ffffffffffff",
+      "cardNumber": "5444444444444447",
+      "cardHolder": "MARIA SIDOROVA",
+      "expiryDate": "2028-03-31",
+      "paymentSystem": "CARD_PAYMENT_SYSTEM_MASTERCARD"
+    },
+    {
+      "id": "99999999-mmmm-4nnn-8ooo-000000000000",
+      "pin": "0000",
+      "cvv": "890",
+      "type": "CARD_TYPE_PHYSICAL",
+      "status": "CARD_STATUS_ACTIVE",
+      "accountId": "ffffffff-gggg-4hhh-8iii-ffffffffffff",
+      "cardNumber": "370000000000008",
+      "cardHolder": "MARIA SIDOROVA",
+      "expiryDate": "2027-12-31",
+      "paymentSystem": "CARD_PAYMENT_SYSTEM_MASTERCARD"
+    }
+  ]
+}
