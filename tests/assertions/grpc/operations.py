@@ -1,133 +1,84 @@
 import allure
 
-from contracts.services.operations.operation_pb2 import Operation
+from contracts.services.operations.operation_pb2 import Operation, OperationType, OperationStatus
 from contracts.services.operations.rpc_get_operations_pb2 import GetOperationsResponse
 from tests.assertions.base import assert_equal
-from tests.schema.operations import OperationEventTestSchema
 from tests.clients.postgres.operations.model import OperationsTestModel
+from tests.schema.operations import OperationEventTestSchema, OperationTestType, OperationTestStatus
 from tests.tools.date import to_proto_test_datetime
 from tests.tools.logger import get_test_logger
-from tests.types.operations import OperationTestType, OperationTestStatus
 
 logger = get_test_logger("OPERATIONS_ASSERTIONS")
 
-OPERATION_TYPE_MAPPING = {
-    OperationTestType.FEE: 1,
-    OperationTestType.TOP_UP: 3,
-    OperationTestType.PURCHASE: 4,
-    OperationTestType.CASHBACK: 5,
-    OperationTestType.TRANSFER: 6,
-    OperationTestType.REVERSAL: 7,
-    OperationTestType.UNSPECIFIED: 0,
-    OperationTestType.BILL_PAYMENT: 8,
-    OperationTestType.CASH_WITHDRAWAL: 9,
+MAP_OPERATION_TYPE_TO_PROTO: dict[OperationTestType, OperationType] = {
+    OperationTestType.FEE: OperationType.OPERATION_TYPE_FEE,
+    OperationTestType.TOP_UP: OperationType.OPERATION_TYPE_TOP_UP,
+    OperationTestType.PURCHASE: OperationType.OPERATION_TYPE_PURCHASE,
+    OperationTestType.CASHBACK: OperationType.OPERATION_TYPE_CASHBACK,
+    OperationTestType.TRANSFER: OperationType.OPERATION_TYPE_TRANSFER,
+    OperationTestType.REVERSAL: OperationType.OPERATION_TYPE_REVERSAL,
+    OperationTestType.UNSPECIFIED: OperationType.OPERATION_TYPE_UNSPECIFIED,
+    OperationTestType.BILL_PAYMENT: OperationType.OPERATION_TYPE_BILL_PAYMENT,
+    OperationTestType.CASH_WITHDRAWAL: OperationType.OPERATION_TYPE_CASH_WITHDRAWAL
 }
 
-OPERATION_STATUS_MAPPING = {
-    OperationTestStatus.FAILED: 4,
-    OperationTestStatus.REVERSED: 3,
-    OperationTestStatus.COMPLETED: 2,
-    OperationTestStatus.IN_PROGRESS: 1,
-    OperationTestStatus.UNSPECIFIED: 0,
+MAP_OPERATION_STATUS_TO_PROTO: dict[OperationTestStatus, OperationStatus] = {
+    OperationTestStatus.FAILED: OperationStatus.OPERATION_STATUS_FAILED,
+    OperationTestStatus.REVERSED: OperationStatus.OPERATION_STATUS_REVERSED,
+    OperationTestStatus.COMPLETED: OperationStatus.OPERATION_STATUS_COMPLETED,
+    OperationTestStatus.IN_PROGRESS: OperationStatus.OPERATION_STATUS_IN_PROGRESS,
+    OperationTestStatus.UNSPECIFIED: OperationStatus.OPERATION_STATUS_UNSPECIFIED,
 }
 
 
 @allure.step("Check operation from event")
 def assert_operation_from_event(actual: Operation, expected: OperationEventTestSchema) -> None:
-    """
-    Проверяет protobuf-модель операции Operation на соответствие
-    доменной схеме события OperationEventTestSchema.
-
-    Такой ассерт используется в сценариях на основе событий,
-    где ожидаемые данные формируются на основе Kafka-события.
-
-    Особенности:
-    - проверяются только доменные атрибуты операции;
-    - идентификатор операции может быть сгенерирован системой и не проверяется.
-    """
     logger.info("Check operation from event")
 
-    # Преобразуем доменные значения enum'ов в protobuf-формат с помощью маппинга
-    expected_type = OPERATION_TYPE_MAPPING[expected.type]
-    expected_status = OPERATION_STATUS_MAPPING[expected.status]
-
-    assert_equal(actual.type, expected_type, "type")
-    assert_equal(actual.status, expected_status, "status")
+    assert_equal(actual.type, MAP_OPERATION_TYPE_TO_PROTO[expected.type], "type")
+    assert_equal(actual.status, MAP_OPERATION_STATUS_TO_PROTO[expected.status], "status")
     assert_equal(actual.amount, expected.amount, "amount")
-    assert_equal(str(actual.user_id), str(expected.user_id), "user_id")
-    assert_equal(str(actual.card_id), str(expected.card_id), "card_id")
+    assert_equal(actual.user_id, str(expected.user_id), "user_id")
+    assert_equal(actual.card_id, str(expected.card_id), "card_id")
     assert_equal(actual.category, expected.category, "category")
     assert_equal(actual.created_at, to_proto_test_datetime(expected.created_at), "created_at")
-    assert_equal(str(actual.account_id), str(expected.account_id), "account_id")
+    assert_equal(actual.account_id, str(expected.account_id), "account_id")
 
 
 @allure.step("Check operation from model")
 def assert_operation_from_model(actual: Operation, expected: OperationsTestModel) -> None:
-    """
-    Проверяет protobuf-модель операции Operation на соответствие
-    модели базы данных OperationsTestModel.
-
-    Такой ассерт используется в сценариях на основе сидинга,
-    где ожидаемые данные формируются на основе модели Postgres.
-
-    Особенности:
-    - проверяется идентификатор операции как часть контракта;
-    - сравниваются все ключевые доменные поля.
-    """
     logger.info("Check operation from model")
 
-    # Преобразуем доменные значения enum'ов в protobuf-формат с помощью маппинга
-    expected_type = OPERATION_TYPE_MAPPING[OperationTestType(expected.type)]
-    expected_status = OPERATION_STATUS_MAPPING[OperationTestStatus(expected.status)]
-
-    assert_equal(str(actual.id), str(expected.id), "id")
-    assert_equal(actual.type, expected_type, "type")
-    assert_equal(actual.status, expected_status, "status")
+    assert_equal(actual.id, str(expected.id), "id")
+    assert_equal(actual.type, MAP_OPERATION_TYPE_TO_PROTO[expected.type], "type")
+    assert_equal(actual.status, MAP_OPERATION_STATUS_TO_PROTO[expected.status], "status")
     assert_equal(actual.amount, expected.amount, "amount")
-    assert_equal(str(actual.user_id), str(expected.user_id), "user_id")
-    assert_equal(str(actual.card_id), str(expected.card_id), "card_id")
+    assert_equal(actual.user_id, str(expected.user_id), "user_id")
+    assert_equal(actual.card_id, str(expected.card_id), "card_id")
     assert_equal(actual.category, expected.category, "category")
     assert_equal(actual.created_at, to_proto_test_datetime(expected.created_at), "created_at")
-    assert_equal(str(actual.account_id), str(expected.account_id), "account_id")
+    assert_equal(actual.account_id, str(expected.account_id), "account_id")
 
 
 @allure.step("Check get operations response from events")
-def assert_get_operations_response_from_events(actual: GetOperationsResponse,
-                                               expected: list[OperationEventTestSchema]) -> None:
-    """
-    Проверяет gRPC-ответ GetOperationsResponse на соответствие
-    списку доменных схем событий OperationEventTestSchema.
-
-    Используется в сценариях на основе событий.
-
-    Особенности:
-    - проверяется количество операций в ответе;
-    - каждая операция проверяется через assert_operation_from_event.
-    """
+def assert_get_operations_response_from_events(
+        actual: GetOperationsResponse,
+        expected: list[OperationEventTestSchema]
+) -> None:
     logger.info("Check get operations response from events")
 
     assert_equal(len(actual.operations), len(expected), "operations count")
-
-    for index, expected_operation in enumerate(expected):
-        assert_operation_from_event(actual.operations[index], expected_operation)
+    for index, event in enumerate(expected):
+        assert_operation_from_event(actual.operations[index], event)
 
 
 @allure.step("Check get operations response from models")
-def assert_get_operations_response_from_models(actual: GetOperationsResponse,
-                                               expected: list[OperationsTestModel]) -> None:
-    """
-    Проверяет gRPC-ответ GetOperationsResponse на соответствие
-    списку моделей базы данных OperationsTestModel.
-
-    Используется в сценариях на основе сидинга.
-
-    Особенности:
-    - проверяется количество операций в ответе;
-    - каждая операция проверяется через assert_operation_from_model.
-    """
+def assert_get_operations_response_from_models(
+        actual: GetOperationsResponse,
+        expected: list[OperationsTestModel]
+) -> None:
     logger.info("Check get operations response from models")
 
     assert_equal(len(actual.operations), len(expected), "operations count")
-
-    for index, expected_operation in enumerate(expected):
-        assert_operation_from_model(actual.operations[index], expected_operation)
+    for index, event in enumerate(expected):
+        assert_operation_from_model(actual.operations[index], event)
