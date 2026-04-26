@@ -1,0 +1,34 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","553","[HTTP][Kafka] Operation events. Completed purchase operation","tests.suites.http","Sun Apr 26 17:33:48 UTC 2026","passed","Sun Apr 26 17:33:49 UTC 2026","TestOperationsHTTP","test_operations","",""
+"
+        Сценарий:
+        Пользователь с активной дебетовой картой
+        запрашивает детали своего счёта через gateway-service.
+
+        Управляющая переменная теста — сценарий.
+        Все данные внешнего мира выбираются через него.
+        ","40","[HTTP] Get account details. User with active debit card account","tests.suites.http","Sun Apr 26 17:33:47 UTC 2026","passed","Sun Apr 26 17:33:47 UTC 2026","TestGatewayHTTP","test_gateway","",""
+"","513","[gRPC][Kafka] Operation events. Completed purchase operation","tests.suites.grpc","Sun Apr 26 17:33:47 UTC 2026","passed","Sun Apr 26 17:33:47 UTC 2026","TestOperationsGRPC","test_operations","",""
+"","24","[gRPC] Get user details. User with active credit card account","tests.suites.grpc","Sun Apr 26 17:33:46 UTC 2026","passed","Sun Apr 26 17:33:46 UTC 2026","TestGatewayGRPC","test_gateway","",""
+"","555","[gRPC][Kafka] Operation events. In progress purchase operation","tests.suites.grpc","Sun Apr 26 17:33:46 UTC 2026","passed","Sun Apr 26 17:33:47 UTC 2026","TestOperationsGRPC","test_operations","",""
+"
+        Сценарий:
+        Пользователь с активной дебетовой картой
+        запрашивает детали своего счёта через gateway-service.
+
+        Управляющая переменная теста — сценарий.
+        Все данные внешнего мира выбираются через него.
+        ","24","[gRPC] Get account details. User with active debit card account","tests.suites.grpc","Sun Apr 26 17:33:46 UTC 2026","passed","Sun Apr 26 17:33:46 UTC 2026","TestGatewayGRPC","test_gateway","",""
+"
+        Сценарий:
+        Пользователь с активным кредитным счётом
+        запрашивает агрегированные данные через gateway-service.
+
+        Управляющая переменная теста — сценарий.
+        Все данные внешнего мира выбираются через него.
+        ","67","[HTTP] Get user details. User with active credit card account","tests.suites.http","Sun Apr 26 17:33:47 UTC 2026","passed","Sun Apr 26 17:33:47 UTC 2026","TestGatewayHTTP","test_gateway","",""
+"","30","[gRPC][Postgres] Filter by card id. In progress purchase operation","tests.suites.grpc","Sun Apr 26 17:33:47 UTC 2026","passed","Sun Apr 26 17:33:47 UTC 2026","TestOperationsGRPC","test_operations","",""
+"","11","[gRPC][Postgres] Filter by account id. Completed purchase operation","tests.suites.grpc","Sun Apr 26 17:33:47 UTC 2026","passed","Sun Apr 26 17:33:47 UTC 2026","TestOperationsGRPC","test_operations","",""
+"","12","[HTTP][Postgres] Filter by account id. Completed purchase operation","tests.suites.http","Sun Apr 26 17:33:49 UTC 2026","passed","Sun Apr 26 17:33:49 UTC 2026","TestOperationsHTTP","test_operations","",""
+"","555","[HTTP][Kafka] Operation events. In progress purchase operation","tests.suites.http","Sun Apr 26 17:33:48 UTC 2026","passed","Sun Apr 26 17:33:48 UTC 2026","TestOperationsHTTP","test_operations","",""
+"","15","[HTTP][Postgres] Filter by card id. In progress purchase operation","tests.suites.http","Sun Apr 26 17:33:49 UTC 2026","passed","Sun Apr 26 17:33:49 UTC 2026","TestOperationsHTTP","test_operations","",""

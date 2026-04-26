@@ -1,0 +1,16 @@
+INFO     OPERATIONS_KAFKA_PRODUCER_TEST_CLIENT:producer.py:77 Kafka message produced operations-service.operation-event.inbox
+INFO     OPERATIONS_KAFKA_PRODUCER_TEST_CLIENT:producer.py:99 Kafka producer flush started
+INFO     OPERATIONS_KAFKA_PRODUCER_TEST_CLIENT:producer.py:101 Kafka producer flush finished
+INFO     OPERATIONS_GRPC_TEST_CLIENT:logger_interceptor.py:54 REQUEST: /contracts.services.operations.OperationsService/GetOperations
+INFO     OPERATIONS_GRPC_TEST_CLIENT:logger_interceptor.py:65 RESPONSE: /contracts.services.operations.OperationsService/GetOperations
+INFO     OPERATIONS_ASSERTIONS:operations.py:68 Check get operations response from events
+INFO     BASE_ASSERTIONS:base.py:27 Check that "operations count" equals to 1
+INFO     OPERATIONS_ASSERTIONS:operations.py:36 Check operation from event
+INFO     BASE_ASSERTIONS:base.py:27 Check that "type" equals to 4
+INFO     BASE_ASSERTIONS:base.py:27 Check that "status" equals to 2
+INFO     BASE_ASSERTIONS:base.py:27 Check that "amount" equals to 532.86
+INFO     BASE_ASSERTIONS:base.py:27 Check that "user_id" equals to b90b50e2-9f89-4fb5-9989-c3410273f0c5
+INFO     BASE_ASSERTIONS:base.py:27 Check that "card_id" equals to 9dc14df2-32ea-483b-965c-a5a77e11be76
+INFO     BASE_ASSERTIONS:base.py:27 Check that "category" equals to internet
+INFO     BASE_ASSERTIONS:base.py:27 Check that "created_at" equals to 2015-10-05 14:29:01
+INFO     BASE_ASSERTIONS:base.py:27 Check that "account_id" equals to 4da10153-e4ed-4361-b9b5-831c00f74e56
